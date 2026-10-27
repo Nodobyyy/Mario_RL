@@ -1,0 +1,23 @@
+# Python 3.11 recommended. DreamerV3 dependencies intentionally excluded.
+-c constraints.txt
+torch==2.4.1
+numpy==1.26.4
+stable-baselines3==2.7.0
+gymnasium==0.29.1
+gym==0.26.2
+# scripts/setup.py installs nes-py from an official sdist using a portable compiler
+# on Windows, then resolves this dependency without requiring Visual Studio.
+nes-py==8.2.1
+gym-super-mario-bros==7.4.0
+opencv-python==4.10.0.84
+imageio==2.34.2
+imageio-ffmpeg==0.5.1
+fastapi==0.115.6
+uvicorn==0.34.0
+websockets==14.1
+tensorboard==2.17.1
+tqdm==4.66.5
+rich==13.9.4
+psutil==6.1.1
+setuptools<81
+wheel

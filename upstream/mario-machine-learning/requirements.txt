@@ -1,0 +1,52 @@
+# =====================================================================
+# Mario Machine Learning - Top-level pinned requirements
+# =====================================================================
+# This file covers BOTH training stacks shipped in the repo:
+#   * SB3 PPO baseline      -> train_mario.py / train_mario_professional.py
+#   * DreamerV3 + Plan2Explore -> dreamerv3/dreamer.py
+#
+# Tested on:
+#   - Python 3.10 / 3.11
+#   - Windows 11 + CUDA 12.1 (NVIDIA RTX-class GPU)
+#
+# Quick start (PowerShell):
+#   python -m venv .venv-gpu
+#   .venv-gpu\Scripts\Activate.ps1
+#   pip install --upgrade pip
+#   pip install -r requirements.txt
+#
+# For CUDA wheels of torch, install torch first from the official PyTorch
+# index, then run `pip install -r requirements.txt` to bring in the rest.
+# =====================================================================
+
+# ---- Deep learning -------------------------------------------------
+torch==2.4.1                # also satisfied by the CUDA wheel from pytorch.org
+numpy==1.23.5
+einops==0.3.0
+protobuf==3.20.0
+
+# ---- RL: SB3 PPO baseline -----------------------------------------
+stable-baselines3==2.3.2
+gymnasium==0.29.1
+gym==0.22.0                 # required by gymnasium-super-mario-bros backend
+nes-py==8.2.1
+gymnasium-super-mario-bros==7.4.0
+
+# ---- RL: DreamerV3 + Plan2Explore ---------------------------------
+ruamel.yaml==0.17.4
+crafter==1.8.0
+dm_control==1.0.9
+memory_maze==1.0.3
+mujoco==2.3.5
+
+# ---- Vision / video / IO ------------------------------------------
+opencv-python==4.7.0.72
+imageio==2.34.2
+imageio-ffmpeg==0.4.9
+moviepy==1.0.3
+matplotlib==3.5.0
+Pillow==10.4.0
+
+# ---- Logging / monitoring -----------------------------------------
+tensorboard==2.17.1
+tqdm==4.66.5

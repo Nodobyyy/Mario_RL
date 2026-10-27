@@ -1,0 +1,8 @@
+{
+  "wheel": "nes_py-8.2.1-py3-none-win_amd64.whl",
+  "sha256": "77be3b19e57846dcf980ccb585eec90365ce8e198ef4d4da3fafc8154fec4256",
+  "source": "nes-py 8.2.1 official PyPI source distribution",
+  "compiler": "Zig 0.13.0",
+  "source_url": "https://files.pythonhosted.org/packages/04/6b/51c9efe4fc67a9311b1125a19ec7a6176c8f0b8334e418d7f5bc53aeec56/nes_py-8.2.1.tar.gz",
+  "source_sha256": "82f6cb9a6f065fb4b248951a6e334cfeb2a3c83316b7c95cfe3dbe176e6c854a"
+}

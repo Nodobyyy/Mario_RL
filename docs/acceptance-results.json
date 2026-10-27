@@ -1,0 +1,77 @@
+{
+  "started_at": "2026-10-27T09:56:43",
+  "checks": [
+    {
+      "check": "CPU environment ready",
+      "passed": true,
+      "python": "3.11.9",
+      "torch": "2.4.1+cpu",
+      "cuda": false
+    },
+    {
+      "check": "Pretrained CPU flag clear and MP4 export",
+      "passed": true,
+      "id": "7a47f0f85e0d4ede",
+      "flags": 1,
+      "steps": 329,
+      "video_bytes": 205359
+    },
+    {
+      "check": "Pause at safe rollout boundary",
+      "passed": true,
+      "id": "e2c11cae3e7f47f1",
+      "timesteps": 256
+    },
+    {
+      "check": "Real CPU PPO, training frames and metrics WebSockets",
+      "passed": true,
+      "timesteps": 384,
+      "episodes": 1
+    },
+    {
+      "check": "Full raw trajectory saved",
+      "passed": true,
+      "episode_id": 76,
+      "points": 77
+    },
+    {
+      "check": "Safe stop and checkpoint",
+      "passed": true,
+      "checkpoint_id": "7298a0599faa4d0f",
+      "timesteps": 412
+    },
+    {
+      "check": "Resume model, optimizer and VecNormalize with cumulative SB3 steps",
+      "passed": true,
+      "id": "79cf725060fc41e2",
+      "start": 412,
+      "end": 540
+    },
+    {
+      "check": "Independent automatic evaluation and best checkpoint",
+      "passed": true,
+      "id": "648df42f32fb4552",
+      "best": "31610b02496442de"
+    },
+    {
+      "check": "Resume upstream NumPy 2 pretrained policy and exact reward RMS on CPU",
+      "passed": true,
+      "id": "e0d82c546e254335",
+      "start": 8050000,
+      "end": 8050128
+    },
+    {
+      "check": "4-worker spawn vector env",
+      "passed": true,
+      "id": "1feb46d407f646c1",
+      "steps": 128
+    },
+    {
+      "check": "8-worker spawn vector env",
+      "passed": true,
+      "id": "a2f4532ad6e242e2",
+      "steps": 256
+    }
+  ],
+  "finished_at": "2026-10-27T09:57:47"
+}

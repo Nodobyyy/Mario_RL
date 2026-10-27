@@ -1,0 +1,76 @@
+﻿==============================================================================
+Q1: Did Mario EVER reach the flag in any run?
+==============================================================================
+  mario_run1                      flag_get episodes:    0 /  239
+  mario_run3_rescue               flag_get episodes:    0 /  115
+  mario_run4_plan2explore         flag_get episodes:    0 / 2059
+
+==============================================================================
+Q2: Best (highest reward sum) episode per run
+==============================================================================
+
+  --- mario_run1 ---
+   #   len      sum     max     min hurdles  died  flag  episode
+   1   283    150.0    2.00    0.00       0 False False  20260423T211414-20b4d3b398854467ab3fe3cb6e769baf-283.npz
+   2   283    147.4    2.00    0.00       0 False False  20260423T224532-c9aa5d1c822c4076a7391d9a14f284a4-283.npz
+   3   283    147.3    2.00    0.00       0 False False  20260423T224721-7beaba5266f948458cbec0b0cb06a43c-283.npz
+
+  --- mario_run3_rescue ---
+   #   len      sum     max     min hurdles  died  flag  episode
+   1   333     56.1    5.60  -50.00       7  True False  20260424T104938-fd43a51388024ce1adff0835e05dfbfb-333.npz
+   2   449     55.6    5.55  -50.00       7  True False  20260424T104934-ee8fb03a7992446d875824e04c56710b-449.npz
+   3   169     55.4    5.60  -50.00       7  True False  20260424T105641-44cec59d21244766a2291ee8c7f662c8-169.npz
+
+  --- mario_run4_plan2explore ---
+   #   len      sum     max     min hurdles  died  flag  episode
+   1   274    152.9    5.60  -50.00      13  True False  20260424T143416-54961830d7214523a5d95b368095d3da-274.npz
+   2   672    133.7    5.60  -50.00      12  True False  20260424T153522-c76d940a81f2437d9367db7140c2f330-672.npz
+   3   251    133.6    5.60  -50.00      12  True False  20260424T154032-83266b94eb8348868e94fe5ee1b0cedf-251.npz
+
+==============================================================================
+Q3: run4 -- per-step reward profile BEFORE vs AFTER R8 switch
+==============================================================================
+  BEFORE   n= 92  len mean=   898 median=   198  return mean=  79.36  deaths=92/92  avg_hurdles/ep=8.17  flags=0
+  AFTER    n=  6  len mean=   730 median=   117  return mean=  41.10  deaths=6/6  avg_hurdles/ep=5.67  flags=0
+
+==============================================================================
+Q4: Look at the LATEST eval episode in detail (where does Mario die?)
+==============================================================================
+  episode file : 20260425T011239-d3abc7594fe8452a82254fa277534d96-167.npz
+  length       : 167 env steps
+  total reward : 91.32
+  death at step 166 / 167  (reward=-54.60)
+  reward in 10 steps before death:
+    step  156  r=   0.415
+    step  157  r=   0.535
+    step  158  r=   0.595
+    step  159  r=   0.655
+    step  160  r=   0.415
+    step  161  r=  -0.005
+    step  162  r=  -0.005
+    step  163  r=  -0.005
+    step  164  r=  -0.005
+    step  165  r=   0.055
+    step  166  r= -54.595 <- DEATH
+
+  positive reward sum :   145.94
+  negative reward sum :   -54.62
+  step_penalty if active (-0.005 * len) = -0.83
+
+==============================================================================
+Q5: Latest training-side numbers (extrinsic vs intrinsic gradient signal)
+==============================================================================
+  step                     = 565712.000
+  actor_loss               =    -0.057
+  value_loss               =     1.068
+  actor_entropy            =     0.209
+  imag_reward_mean         =    -0.366
+  imag_reward_min          =   -53.886
+  imag_reward_max          =     5.736
+  expl_imag_reward_mean    =    -3.440
+  expl_imag_reward_min     =   -58.203
+  expl_imag_reward_max     =     4.576
+  EMA_005                  =    21.040
+  EMA_095                  =   116.898
+  expl_EMA_005             =   -67.496
+  expl_EMA_095             =   -16.121

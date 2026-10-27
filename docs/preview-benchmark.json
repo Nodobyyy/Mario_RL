@@ -1,0 +1,36 @@
+{
+  "samples": [
+    {
+      "id": "915ca4bea0de45d5",
+      "preview_fps": 0,
+      "training_fps": 103.03884081309637,
+      "elapsed_seconds": 9.937999999994645,
+      "steps": 1024
+    },
+    {
+      "id": "ca56f43bb5564990",
+      "preview_fps": 8,
+      "training_fps": 106.74450119886333,
+      "elapsed_seconds": 9.59299999999348,
+      "steps": 1024
+    },
+    {
+      "id": "2f0803c2bb024dc5",
+      "preview_fps": 8,
+      "training_fps": 103.37169392284709,
+      "elapsed_seconds": 9.906000000002678,
+      "steps": 1024
+    },
+    {
+      "id": "685e478408b4499e",
+      "preview_fps": 0,
+      "training_fps": 106.03707155440114,
+      "elapsed_seconds": 9.656999999991967,
+      "steps": 1024
+    }
+  ],
+  "baseline_median_fps": 104.53795618374875,
+  "preview_median_fps": 105.0580975608552,
+  "measured_throughput_change_percent": 0.4975622215075637,
+  "note": "Windows CPU, 1 dummy env, 1024 steps, 2 epochs, 2 Torch threads; 2 paired samples per setting. Includes PPO updates and checkpoint I/O; short-run measurements contain noise. Explicit cuda requests fell back to CPU."
+}

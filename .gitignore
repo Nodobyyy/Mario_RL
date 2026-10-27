@@ -1,0 +1,13 @@
+.venv*/
+.python311/
+tmp/
+data/
+frontend/node_modules/
+__pycache__/
+.pytest_cache/
+release/
+*.pyc
+.env
+.env.*
+!.env.example
+*.log

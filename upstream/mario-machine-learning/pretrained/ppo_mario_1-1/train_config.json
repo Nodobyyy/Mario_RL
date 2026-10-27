@@ -1,0 +1,66 @@
+{
+  "run_dir": "C:\\Users\\31660\\mario-rl\\runs\\ppo_efficient_timepen_20260426_020450",
+  "final_model": "C:\\Users\\31660\\mario-rl\\runs\\ppo_efficient_timepen_20260426_020450\\models\\mario_final.zip",
+  "timesteps": 1500000,
+  "start_timesteps": 6950000,
+  "resume_model": "C:\\Users\\31660\\mario-rl\\runs\\ppo_resume2m_ent002_20260425_172812\\evaluations\\best_eval.zip",
+  "seed": 42,
+  "env": {
+    "world": 1,
+    "stage": 1,
+    "frame_skip": 4,
+    "frame_stack": 4,
+    "screen_size": 84,
+    "noop_max": 30,
+    "n_envs": 8,
+    "vec_backend": "dummy",
+    "end_on_flag": true,
+    "action_set": "simple",
+    "forward_reward_scale": 0.15,
+    "backward_penalty_scale": 0.05,
+    "flag_bonus": 200.0,
+    "stall_steps": 120,
+    "stall_penalty": 0.0,
+    "end_on_stall_steps": 0,
+    "end_on_stall_penalty": 0.0,
+    "milestone_step": 50,
+    "milestone_bonus": 0.5,
+    "hurdle_x": [
+      600,
+      1200,
+      1800,
+      2400,
+      3000
+    ],
+    "hurdle_bonus": 10.0,
+    "time_penalty_per_step": 0.02,
+    "long_jump_action": false,
+    "long_jump_hold_steps": 4,
+    "long_jump_base_action": -1
+  },
+  "ppo": {
+    "learning_rate": 0.00025,
+    "n_steps": 512,
+    "batch_size": 256,
+    "ent_coef": 0.018,
+    "n_epochs": 4,
+    "clip_range": 0.2,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "target_kl": null,
+    "device": "cuda",
+    "requested_device": "cuda"
+  },
+  "evaluation": {
+    "eval_freq": 50000,
+    "eval_steps": 4000,
+    "eval_episodes": 3
+  },
+  "preview": {
+    "preview_freq": 100000,
+    "preview_steps": 1024,
+    "preview_episodes": 1,
+    "preview_fps": 15,
+    "live_preview": false
+  }
+}

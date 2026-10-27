@@ -1,0 +1,37 @@
+{
+  "goal_line_x": 3161,
+  "episodes": 1,
+  "deterministic": false,
+  "average_return": 3805.970000000018,
+  "average_length": 329.0,
+  "flags_cleared": 1,
+  "clear_rate": 1.0,
+  "episode_returns": [
+    3805.970000000018
+  ],
+  "episode_lengths": [
+    329
+  ],
+  "episode_flags": [
+    true
+  ],
+  "max_x_positions": [
+    3161
+  ],
+  "average_max_x": 3161.0,
+  "median_max_x": 3161.0,
+  "best_max_x": 3161,
+  "remaining_distances": [
+    0
+  ],
+  "average_remaining_distance": 0.0,
+  "median_remaining_distance": 0.0,
+  "best_remaining_distance": 0,
+  "average_clear_steps": 329.0,
+  "best_clear_steps": 329,
+  "eval_steps": 329,
+  "elapsed_seconds": 3.577999999994063,
+  "checkpoint_id": "pretrained",
+  "checkpoint_timesteps": 8050000,
+  "video_available": true
+}

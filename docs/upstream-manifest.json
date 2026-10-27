@@ -1,0 +1,14 @@
+{
+  "repository": "https://github.com/WilliamK112/mario-machine-learning",
+  "retrieval": "main branch source archive, 2026-10-27",
+  "files": {
+    "mario_runtime.py": "5ad80fb0dbb6a1ec24803e550aa0ef17cd27d16670eb7470ca6ca76c6eabd6d3",
+    "train_mario.py": "153bf7b3972e4040a5fc8046d99c556d33d5ee51295b423ca2f6e9655ba381a9",
+    "evaluate_mario.py": "a41c366a54325fa72998817214795a46de35cccb5e1e5af7e2caefb3d6f6e0f6",
+    "watch_mario.py": "caa0988cb8b5999bd18f0655e8ad0dc0a2da49ccc09d1d2719737f35d99bce05",
+    "render_best_checkpoint.py": "41f83b52a61bff2c1cd16b0982ba6892a0fee11e96d907da0422a51ec55eba6f",
+    "pretrained/ppo_mario_1-1/best_eval.zip": "4c697ec367792f98e76f04f6cb5c37bcd9556846a586ca8fc627495b0d622312",
+    "pretrained/ppo_mario_1-1/train_config.json": "df7e60e1a7faf855f7c7440ac805fc8ecf3fb70c1fbfdb1960a6aa8658e970a7",
+    "pretrained/ppo_mario_1-1/vecnormalize.pkl": "57733ced95a35a0a643242627ad8998417a456b7a92c68dfed3830386840f85d"
+  }
+}

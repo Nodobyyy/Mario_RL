@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-10-27T02:22:39.495366+00:00",
+  "device": "cpu",
+  "samples": [
+    {
+      "target_fps": 30,
+      "delivered_fps": 19.230769230841233,
+      "captured_fps": 19.127843253192893,
+      "frames": 59
+    },
+    {
+      "target_fps": 60,
+      "delivered_fps": 28.0,
+      "captured_fps": 27.98483208379654,
+      "frames": 85
+    }
+  ],
+  "disable_preview_keeps_training": true,
+  "resume_preview_without_worker_restart": true,
+  "run_id": "4e1aaf5de1e94675",
+  "data_dir": "C:\\Users\\Nodoby\\Desktop\\Mario\\tmp\\preview-check-c5f6f11c",
+  "final_status": "stopped"
+}

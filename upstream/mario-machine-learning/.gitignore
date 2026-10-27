@@ -1,0 +1,82 @@
+# =====================================================================
+# Mario Machine Learning - .gitignore
+# =====================================================================
+
+# ----- Python virtualenvs (huge, never push) -----
+.venv/
+.venv-gpu/
+.venv-*/
+env/
+venv/
+ENV/
+
+# ----- Python caches / bytecode -----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ----- Distribution / packaging -----
+build/
+dist/
+*.egg-info/
+*.egg
+
+# ----- IDE / editor -----
+.vscode/
+.idea/
+
+# ----- DreamerV3 + SB3 training artifacts -----
+# Episode buffers, world-model checkpoints, evaluation rollouts.
+# Re-creatable from scratch and far too big for GitHub.
+dreamerv3/logs/
+dreamerv3/runs/
+dreamerv3/run*/
+dreamerv3/logdir*/
+dreamerv3/vis_*/
+dreamerv3/result*/
+dreamerv3/wandb/
+
+# Local checkpoint copies (scripts/backup_1-1_checkpoints.ps1); large zips stay out of git.
+backups/
+
+# Stable-Baselines3 outputs from earlier PPO baseline.
+runs/
+evaluations/
+previews/
+*.zip
+# Shipped 1-1 PPO for clone-and-play (see README).
+!pretrained/ppo_mario_1-1/best_eval.zip
+*.pt
+*.pth
+
+# Episode trajectories and rollout videos.
+*.npz
+*.gif
+!docs/mario_ppo_flag_run.gif
+!docs/mario_ppo_shortest_flag_run.gif
+*.mp4
+!docs/mario_ppo_shortest_flag_run.mp4
+!docs/mario_1-2_shortest_flag.mp4
+*.mkv
+*.avi
+
+# ----- Logs / scratch / temp -----
+*.log
+*.err
+.last_run.txt
+heartbeat.log
+nul
+
+# ----- Bundled third-party Mario sources (pulled in for local dev only) -----
+gymnasium-mario-main/
+super-mario-bros-reinforcement-learning-main/
+
+# ----- OS junk -----
+Thumbs.db
+.DS_Store
+desktop.ini
