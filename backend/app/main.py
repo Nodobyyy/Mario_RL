@@ -9,6 +9,7 @@ from . import storage as s
 from .hardware import hardware
 from .processes import command, launch, reconcile
 from .schemas import EvalConfig, PreviewConfig, RunConfig
+from backend.training.algorithms import checkpoint_algorithm, checkpoint_details
 
 
 @asynccontextmanager
@@ -57,7 +58,7 @@ def ready():
 
 @app.get('/api/system/status')
 def system_status():
-    return {**hardware(), 'timestamp': s.now(), 'data_dir': str(s.DATA), 'algorithm': 'ppo'}
+    return {**hardware(), 'timestamp': s.now(), 'data_dir': str(s.DATA), 'algorithms': ['ppo', 'a2c']}
 
 
 @app.get('/api/runs')
@@ -71,7 +72,9 @@ def runs():
 def create_run(config: RunConfig):
     ready()
     if config.resume_checkpoint:
-        require_checkpoint(config.resume_checkpoint)
+        cp = require_checkpoint(config.resume_checkpoint)
+        if checkpoint_algorithm(cp['path']) != config.algorithm:
+            raise HTTPException(422, '起始权重的算法与所选训练算法不一致，请选择相同算法的权重或从零训练')
     try:
         return launch('train', config.model_dump())
     except ValueError as e:
@@ -169,7 +172,13 @@ def trajectory(episode_id: int):
 def checkpoints():
     s.register_pretrained()
     with s.db() as c:
-        return [dict(x) for x in c.execute('SELECT * FROM checkpoints ORDER BY created_at DESC')]
+        rows = [dict(x) for x in c.execute('SELECT * FROM checkpoints ORDER BY created_at DESC')]
+    for row in rows:
+        if Path(row['path']).is_file():
+            row.update(checkpoint_details(row['path']))
+        else:
+            row.update(algorithm='ppo', world=1, stage=1)
+    return rows
 
 
 @app.get('/api/checkpoints/{cp_id}/download')

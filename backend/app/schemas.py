@@ -4,7 +4,9 @@ from pydantic import BaseModel, Field, model_validator
 
 class RunConfig(BaseModel):
     name: str = Field('PPO · Mario 1-1', min_length=1, max_length=100)
-    algorithm: Literal['ppo'] = 'ppo'
+    algorithm: Literal['ppo', 'a2c'] = 'ppo'
+    world: int = Field(1, ge=1, le=8)
+    stage: int = Field(1, ge=1, le=4)
     total_timesteps: int = Field(20000, ge=32, le=1_000_000_000)
     device: Literal['auto', 'cpu', 'cuda'] = 'auto'
     n_envs: Literal[1, 4, 8] = 1
@@ -26,7 +28,7 @@ class RunConfig(BaseModel):
 
     @model_validator(mode='after')
     def check_batch(self):
-        if self.batch_size > self.n_envs * self.n_steps or (self.n_envs * self.n_steps) % self.batch_size:
+        if self.algorithm == 'ppo' and (self.batch_size > self.n_envs * self.n_steps or (self.n_envs * self.n_steps) % self.batch_size):
             raise ValueError('batch_size 必须整除 n_envs × n_steps')
         return self
 
@@ -37,6 +39,8 @@ class PreviewConfig(BaseModel):
 
 class EvalConfig(BaseModel):
     checkpoint_id: str = 'pretrained'
+    world: int | None = Field(None, ge=1, le=8)
+    stage: int | None = Field(None, ge=1, le=4)
     episodes: int = Field(1, ge=1, le=20)
     max_steps: int = Field(4000, ge=32, le=20000)
     deterministic: bool = False

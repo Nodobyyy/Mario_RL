@@ -1,4 +1,4 @@
-"""Adapt upstream main() through factories/callbacks, without rewriting PPO."""
+"""Adapt the upstream environment pipeline to supported SB3 algorithms."""
 import json
 import sys
 import torch
@@ -9,6 +9,7 @@ from .compat import load_runtime, model_custom_objects, load_vecnormalize
 from .frames import FramePublisher
 from .telemetry import Telemetry
 from .callbacks import DashboardCallback
+from .algorithms import algorithm_class, checkpoint_algorithm
 
 
 def make_worker_env(env_config, seed, job_id, worker_id, fps):
@@ -34,18 +35,26 @@ def train(job_id):
     import train_mario as upstream
     upstream.VecNormalize.load = staticmethod(load_vecnormalize)
     torch.set_num_threads(cfg['threads'])
-    # Upstream does not expose a PPO seed argument; wrap construction to seed it.
-    original_ppo = upstream.PPO
-    class SeededPPO(original_ppo):
+    # Keep the upstream pipeline; dispatch its model factory to PPO or A2C.
+    algorithm = cfg.get('algorithm', 'ppo')
+    original_ppo = algorithm_class(algorithm)
+    ignored = {'batch_size', 'n_epochs', 'clip_range', 'target_kl'} if algorithm == 'a2c' else set()
+    class DashboardAlgorithm(original_ppo):
         def __init__(self, *a, **kw):
+            for key in ignored:
+                kw.pop(key, None)
             kw.setdefault('seed', cfg['seed'])
             super().__init__(*a, **kw)
         @classmethod
         def load(cls, path, *a, **kw):
             custom = model_custom_objects(path)
             custom.update(kw.pop('custom_objects', {}) or {})
+            for key in ignored:
+                custom.pop(key, None)
+            if checkpoint_algorithm(path) != algorithm:
+                raise ValueError('起始权重的算法与所选训练算法不一致')
             return super().load(path, *a, custom_objects=custom, **kw)
-    upstream.PPO = SeededPPO
+    upstream.PPO = DashboardAlgorithm
     saved_argv = sys.argv
     sys.argv = ['train_mario.py']
     args = upstream.parse_args()
@@ -74,6 +83,10 @@ def train(job_id):
         for key, value in rt.config_to_dict(env_cfg).items():
             if key not in ('n_envs', 'vec_backend') and hasattr(args, key):
                 setattr(args, key, value)
+    args.world, args.stage = cfg.get('world', 1), cfg.get('stage', 1)
+    args.goal_line_x = 0
+    if (args.world, args.stage) != (1, 1):
+        args.hurdle_x = []
     upstream.parse_args = lambda: args
     created = []
     from functools import partial

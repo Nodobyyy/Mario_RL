@@ -25,6 +25,7 @@ class DashboardCallback(BaseCallback):
         self.initialized = False
 
     def _on_training_start(self):
+        self.model.dashboard_algorithm = self.cfg.get('algorithm', 'ppo')
         self.initialized = True
         self.start_steps = self.num_timesteps
         self.last_checkpoint = self.last_eval = self.num_timesteps
@@ -32,7 +33,8 @@ class DashboardCallback(BaseCallback):
             'num_timesteps': self.num_timesteps, 'start_timesteps': self.start_steps,
             'target_timesteps': self.start_steps + self.cfg['total_timesteps'],
             'device': str(self.model.device), 'learning_rate': self.cfg['learning_rate'],
-            'mode': 'training_preview', 'algorithm': 'ppo'})
+            'mode': 'training_preview', 'algorithm': self.cfg.get('algorithm', 'ppo'),
+            'world': self.cfg.get('world', 1), 'stage': self.cfg.get('stage', 1)})
         self.save_checkpoint('initial')
 
     def save_checkpoint(self, name):
@@ -84,7 +86,7 @@ class DashboardCallback(BaseCallback):
         from backend.app.schemas import EvalConfig
         cfg = EvalConfig(checkpoint_id=cp_id, episodes=self.cfg['eval_episodes'],
                          max_steps=self.cfg['eval_steps'], realtime=False, record_video=False,
-                         deterministic=True, seed=self.cfg['seed'], threads=min(2, self.cfg['threads'])).model_dump()
+                         deterministic=False, seed=self.cfg['seed'], threads=min(2, self.cfg['threads'])).model_dump()
         try:
             job = launch('evaluation', cfg, parent_run=self.job_id)
             self.auto_eval = job['id']
@@ -129,12 +131,14 @@ class DashboardCallback(BaseCallback):
                        mean_reward=sum(x['reward'] for x in rows) / len(rows) if rows else None,
                        mean_length=sum(x['steps'] for x in rows) / len(rows) if rows else None,
                        **self.eval_state)
-        for key in ('train/policy_gradient_loss', 'train/value_loss', 'train/entropy_loss', 'train/approx_kl'):
+        for key in ('train/policy_gradient_loss', 'train/policy_loss', 'train/value_loss', 'train/entropy_loss', 'train/approx_kl'):
             value = self.model.logger.name_to_value.get(key)
             if value is not None and math.isfinite(float(value)):
                 metrics[key.split('/')[-1]] = float(value)
         if 'entropy_loss' in metrics:
             metrics['policy_entropy'] = -metrics['entropy_loss']
+        if 'policy_loss' in metrics:
+            metrics['policy_gradient_loss'] = metrics['policy_loss']
         if self.model.device.type == 'cuda':
             import torch
             metrics['gpu_memory_mb'] = torch.cuda.memory_allocated(self.model.device) / 1024**2

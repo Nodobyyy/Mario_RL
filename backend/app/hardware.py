@@ -2,11 +2,9 @@ import importlib.util
 import os
 import platform
 import sys
-from functools import lru_cache
 from .storage import UPSTREAM
 
 
-@lru_cache(maxsize=1)
 def hardware():
     cuda, gpu, vram = False, None, None
     torch_version, torch_error = None, None

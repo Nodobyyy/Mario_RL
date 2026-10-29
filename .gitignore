@@ -11,3 +11,8 @@ release/
 .env.*
 !.env.example
 *.log
+
+# Local project reports
+/人机奥利奥-项目过程文档.docx
+/汇报.docx
+/汇报要点.md

@@ -3,12 +3,12 @@ from pathlib import Path
 import time
 import numpy as np
 import torch
-from stable_baselines3 import PPO
 from backend.app import storage as s
 from backend.app.hardware import resolve_device
 from .compat import load_runtime, model_custom_objects
 from .frames import FramePublisher
 from .telemetry import Telemetry
+from .algorithms import algorithm_class, checkpoint_algorithm
 
 
 def evaluate(job_id):
@@ -18,8 +18,13 @@ def evaluate(job_id):
     rt = load_runtime()
     torch.set_num_threads(cfg['threads'])
     torch.manual_seed(cfg['seed'])
-    model = PPO.load(cp['path'], device=resolve_device(cfg['device']), custom_objects=model_custom_objects(cp['path']))
+    algorithm = checkpoint_algorithm(cp['path'])
+    device = resolve_device(cfg['device'])
+    model = algorithm_class(algorithm).load(cp['path'], device=device, custom_objects=model_custom_objects(cp['path']))
     env_cfg = rt.load_env_config_for_model(cp['path'])
+    env_cfg.world = cfg.get('world') or env_cfg.world
+    env_cfg.stage = cfg.get('stage') or env_cfg.stage
+    env_cfg.goal_line_x = 0
     env_cfg.n_envs, env_cfg.noop_max, env_cfg.end_on_flag = 1, 0, True
     publisher = FramePublisher(job_id, 'independent_evaluation', cfg['fps'])
     env = Telemetry(rt.make_single_env(env_cfg), job_id, 0, rt, publisher,
@@ -29,7 +34,9 @@ def evaluate(job_id):
     started = time.monotonic()
     steps = 0
     stopped = False
-    s.patch_job(job_id, status='running', state={'checkpoint_timesteps': int(model.num_timesteps), 'mode': 'independent_evaluation'})
+    s.patch_job(job_id, status='running', state={'checkpoint_timesteps': int(model.num_timesteps), 'mode': 'independent_evaluation',
+        'algorithm': algorithm, 'world': env_cfg.world, 'stage': env_cfg.stage, 'device': device,
+        'device_fallback': cfg['device'] == 'cuda' and device == 'cpu'})
     try:
         if cfg['record_video']:
             import imageio.v2 as imageio
